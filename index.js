@@ -4,6 +4,7 @@ const { MongoClient, ServerApiVersion } = require("mongodb");
 var cors = require("cors");
 app.use(cors());
 const port = process.env.PORT || 5000;
+app.use(express.json());
 
 function run() {
   //mongodb connection start
@@ -30,9 +31,9 @@ function run() {
 
     app.post("/users", async (req, res) => {
       const user = req.body;
-      console.log(user);
-      // const result = await usersCollection.insertOne(user);
-      // res.send(result);
+
+      const result = await usersCollection.insertOne(user);
+      res.send(result);
     });
 
     // get users collection
