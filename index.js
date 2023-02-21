@@ -24,6 +24,9 @@ function run() {
 
     const basaCollection = client.db("basaBhara").collection("allBasa");
     const usersCollection = client.db("basaBhara").collection("users");
+    const categoriesCollection = client
+      .db("basaBhara")
+      .collection("categories");
 
     app.get("/text", (req, res) => {
       res.send("hello world");
@@ -42,6 +45,24 @@ function run() {
       const result = await usersCollection.find(query).toArray();
       res.send(result);
     });
+
+    // get categories
+    app.get("/categories", async (req, res) => {
+      const query = {};
+      const result = await categoriesCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    //post basa
+    app.post("/categories", async (req, res) => {
+      const basa = req.body;
+      const result = await basaCollection.insertOne(basa);
+      res.send(result);
+    });
+
+    //
+
+    //
 
     //
   } finally {
