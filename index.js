@@ -54,9 +54,16 @@ function run() {
     });
 
     //post basa
-    app.post("/categories", async (req, res) => {
+    app.post("/allbasa", async (req, res) => {
       const basa = req.body;
       const result = await basaCollection.insertOne(basa);
+      res.send(result);
+    });
+
+    // get all basa collection
+    app.get("/allbasa", async (req, res) => {
+      const query = {};
+      const result = await basaCollection.find(query).toArray();
       res.send(result);
     });
 
