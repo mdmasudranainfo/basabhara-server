@@ -67,16 +67,13 @@ function run() {
       res.send(result);
     });
 
-
-
     // adject categories basa_____________________________________-
     app.get("/homes/:category", async (req, res) => {
-      const category = req.params;
+      const category = req.params.category;
       console.log(category);
-      const query = {category:category};
+      const query = { category: category };
       const result = await basaCollection.find(query).toArray();
       res.send(result);
-
     });
 
     //
