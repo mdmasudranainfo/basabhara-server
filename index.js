@@ -76,7 +76,15 @@ function run() {
       res.send(result);
     });
 
-    //
+
+    //get exact homeDetails____________________________________
+    app.get('/homedetails/:id', async(req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const detail = await basaCollection.findOne(query);
+      res.send(detail);
+  })
+
 
     //
 
