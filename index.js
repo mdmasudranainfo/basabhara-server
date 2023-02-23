@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 var cors = require("cors");
 app.use(cors());
 const port = process.env.PORT || 5000;
@@ -80,6 +80,7 @@ function run() {
     //get exact homeDetails____________________________________
     app.get('/homedetails/:id', async(req, res) => {
       const id = req.params.id;
+      console.log(id);
       const query = { _id: ObjectId(id) };
       const detail = await basaCollection.findOne(query);
       res.send(detail);
