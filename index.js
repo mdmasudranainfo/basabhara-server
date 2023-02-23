@@ -76,16 +76,14 @@ function run() {
       res.send(result);
     });
 
-
     //get exact homeDetails____________________________________
-    app.get('/homedetails/:id', async(req, res) => {
+    app.get("/details/:id", async (req, res) => {
       const id = req.params.id;
-      console.log(id);
-      const query = { _id: ObjectId(id) };
-      const detail = await basaCollection.findOne(query);
-      res.send(detail);
-  })
-
+      // console.log(id);
+      const query = { _id: new ObjectId(id) };
+      const result = await basaCollection.findOne(query);
+      res.send(result);
+    });
 
     //
 
