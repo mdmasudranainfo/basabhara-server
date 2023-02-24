@@ -23,6 +23,7 @@ function run() {
     // collections
 
     const basaCollection = client.db("basaBhara").collection("allBasa");
+    const locationCollection = client.db("basaBhara").collection("locations");
     const usersCollection = client.db("basaBhara").collection("users");
     const categoriesCollection = client
       .db("basaBhara")
@@ -93,6 +94,22 @@ function run() {
       const result = await basaCollection.deleteOne(query);
       res.send(result);
     });
+
+    // expincive basa get
+    app.get("/expensive", async (req, res) => {
+      const query = { expancive: true };
+      const result = await basaCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    // location get
+
+    app.get("/locations", async (req, res) => {
+      const query = {};
+      const result = await locationCollection.find(query).toArray();
+      res.send(result);
+    });
+
     //
 
     //
