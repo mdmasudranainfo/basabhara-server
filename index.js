@@ -42,7 +42,7 @@ function run() {
 
     // get users collection
     app.get("/users", async (req, res) => {
-      const query = {};
+      const query = { userType: "user" };
       const result = await usersCollection.find(query).toArray();
       res.send(result);
     });
@@ -121,6 +121,20 @@ function run() {
         $set: user,
       };
       const result = await usersCollection.updateOne(query, updateDoc, options);
+      res.send(result);
+    });
+
+    // all user get
+    app.get("/pending", async (req, res) => {
+      const query = { userType: "pending" };
+      const result = await usersCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    // all user get
+    app.get("/seller", async (req, res) => {
+      const query = { userType: "seller" };
+      const result = await usersCollection.find(query).toArray();
       res.send(result);
     });
 
