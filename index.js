@@ -148,6 +148,20 @@ function run() {
       res.send(cursor);
     });
 
+
+
+    // get Review....................................
+    app.get("/review", async (req, res) => {
+      let query = {};
+      if (req.query.homeId) {
+        query = { homeId: req.query.homeId };
+      }
+
+      const cursor = await reviewCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
     //
 
     //
