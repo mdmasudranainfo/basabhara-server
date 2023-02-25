@@ -110,6 +110,20 @@ function run() {
       res.send(result);
     });
 
+    // seller request post
+    app.put("/sellerrequest/:email", async (req, res) => {
+      const user = req.body;
+      const email = req.params.email;
+      const query = { email: email };
+      const options = { upsert: true };
+
+      const updateDoc = {
+        $set: user,
+      };
+      const result = await usersCollection.updateOne(query, updateDoc, options);
+      res.send(result);
+    });
+
     //
 
     //
