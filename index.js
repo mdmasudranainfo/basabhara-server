@@ -28,6 +28,7 @@ function run() {
     const categoriesCollection = client
       .db("basaBhara")
       .collection("categories");
+    const reviewCollection = client.db("basaBhara").collection("review");
 
     app.get("/text", (req, res) => {
       res.send("hello world");
@@ -136,6 +137,15 @@ function run() {
       const query = { userType: "seller" };
       const result = await usersCollection.find(query).toArray();
       res.send(result);
+    });
+
+
+
+    // post review...........................
+    app.post("/review", async (req, res) => {
+      const review = req.body;
+      const cursor = await reviewCollection.insertOne(review);
+      res.send(cursor);
     });
 
     //
