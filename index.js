@@ -29,10 +29,15 @@ function run() {
       .db("basaBhara")
       .collection("categories");
     const reviewCollection = client.db("basaBhara").collection("review");
+    const bookingCollection = client.db("basaBhara").collection("booking");
 
     app.get("/text", (req, res) => {
       res.send("hello world");
     });
+
+
+
+
 
     app.post("/users", async (req, res) => {
       const user = req.body;
@@ -41,12 +46,22 @@ function run() {
       res.send(result);
     });
 
+
+
+
+
+
     // get users collection
     app.get("/users", async (req, res) => {
       const query = { userType: "user" };
       const result = await usersCollection.find(query).toArray();
       res.send(result);
     });
+
+
+
+
+
 
     // get categories
     app.get("/categories", async (req, res) => {
@@ -55,6 +70,11 @@ function run() {
       res.send(result);
     });
 
+
+
+
+
+
     //post basa
     app.post("/allbasa", async (req, res) => {
       const basa = req.body;
@@ -62,12 +82,23 @@ function run() {
       res.send(result);
     });
 
+
+
+
+
+
     // get all basa collection
     app.get("/allbasa", async (req, res) => {
       const query = {};
       const result = await basaCollection.find(query).toArray();
       res.send(result);
     });
+
+
+
+
+
+
 
     // adject categories basa_____________________________________-
     app.get("/homes/:category", async (req, res) => {
@@ -78,6 +109,12 @@ function run() {
       res.send(result);
     });
 
+
+
+
+
+
+
     //get exact homeDetails____________________________________
     app.get("/details/:id", async (req, res) => {
       const id = req.params.id;
@@ -86,6 +123,12 @@ function run() {
       const result = await basaCollection.findOne(query);
       res.send(result);
     });
+
+
+
+
+
+
 
     // delete basaCollection
     app.delete("/delete/:id", async (req, res) => {
@@ -96,6 +139,12 @@ function run() {
       res.send(result);
     });
 
+
+
+
+
+
+
     // expincive basa get
     app.get("/expensive", async (req, res) => {
       const query = { expancive: true };
@@ -103,13 +152,22 @@ function run() {
       res.send(result);
     });
 
-    // location get
 
+
+
+
+
+    // location get
     app.get("/locations", async (req, res) => {
       const query = {};
       const result = await locationCollection.find(query).toArray();
       res.send(result);
     });
+
+
+
+
+
 
     // seller request post
     app.put("/sellerrequest/:email", async (req, res) => {
@@ -125,12 +183,21 @@ function run() {
       res.send(result);
     });
 
+
+
+
+
+
     // all user get
     app.get("/pending", async (req, res) => {
       const query = { userType: "pending" };
       const result = await usersCollection.find(query).toArray();
       res.send(result);
     });
+
+
+
+
 
     // all user get
     app.get("/seller", async (req, res) => {
@@ -141,12 +208,16 @@ function run() {
 
 
 
+
+
     // post review...........................
     app.post("/review", async (req, res) => {
       const review = req.body;
       const cursor = await reviewCollection.insertOne(review);
       res.send(cursor);
     });
+
+
 
 
 
@@ -181,7 +252,37 @@ function run() {
         
     })
 
-    //
+
+
+
+    
+    // post Booking...........................
+    app.post("/booking", async (req, res) => {
+      const booking = req.body;
+      const cursor = await bookingCollection.insertOne(booking);
+      res.send(cursor);
+    });
+
+
+
+
+
+
+    // get Booking Data....................................
+    app.get("/booking", async (req, res) => {
+      let query = {};
+      if (req.query.bookingHouse) {
+        query = { bookingHouse: req.query.bookingHouse };
+      }
+
+      const cursor = await bookingCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+
+
+
 
     //
   } finally {
