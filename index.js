@@ -35,10 +35,6 @@ function run() {
       res.send("hello world");
     });
 
-
-
-
-
     app.post("/users", async (req, res) => {
       const user = req.body;
 
@@ -46,22 +42,12 @@ function run() {
       res.send(result);
     });
 
-
-
-
-
-
     // get users collection
     app.get("/users", async (req, res) => {
       const query = { userType: "user" };
-      const result = await usersCollection.find(query).toArray();
+      const result = await usersCollection.find({}).toArray();
       res.send(result);
     });
-
-
-
-
-
 
     // get categories
     app.get("/categories", async (req, res) => {
@@ -70,11 +56,6 @@ function run() {
       res.send(result);
     });
 
-
-
-
-
-
     //post basa
     app.post("/allbasa", async (req, res) => {
       const basa = req.body;
@@ -82,23 +63,12 @@ function run() {
       res.send(result);
     });
 
-
-
-
-
-
     // get all basa collection
     app.get("/allbasa", async (req, res) => {
       const query = {};
       const result = await basaCollection.find(query).toArray();
       res.send(result);
     });
-
-
-
-
-
-
 
     // adject categories basa_____________________________________-
     app.get("/homes/:category", async (req, res) => {
@@ -109,12 +79,6 @@ function run() {
       res.send(result);
     });
 
-
-
-
-
-
-
     //get exact homeDetails____________________________________
     app.get("/details/:id", async (req, res) => {
       const id = req.params.id;
@@ -123,12 +87,6 @@ function run() {
       const result = await basaCollection.findOne(query);
       res.send(result);
     });
-
-
-
-
-
-
 
     // delete basaCollection
     app.delete("/delete/:id", async (req, res) => {
@@ -139,12 +97,6 @@ function run() {
       res.send(result);
     });
 
-
-
-
-
-
-
     // expincive basa get
     app.get("/expensive", async (req, res) => {
       const query = { expancive: true };
@@ -152,22 +104,12 @@ function run() {
       res.send(result);
     });
 
-
-
-
-
-
     // location get
     app.get("/locations", async (req, res) => {
       const query = {};
       const result = await locationCollection.find(query).toArray();
       res.send(result);
     });
-
-
-
-
-
 
     // seller request post
     app.put("/sellerrequest/:email", async (req, res) => {
@@ -183,21 +125,12 @@ function run() {
       res.send(result);
     });
 
-
-
-
-
-
     // all user get
     app.get("/pending", async (req, res) => {
       const query = { userType: "pending" };
       const result = await usersCollection.find(query).toArray();
       res.send(result);
     });
-
-
-
-
 
     // all user get
     app.get("/seller", async (req, res) => {
@@ -206,20 +139,12 @@ function run() {
       res.send(result);
     });
 
-
-
-
-
     // post review...........................
     app.post("/review", async (req, res) => {
       const review = req.body;
       const cursor = await reviewCollection.insertOne(review);
       res.send(cursor);
     });
-
-
-
-
 
     // get Review....................................
     app.get("/review", async (req, res) => {
@@ -233,29 +158,21 @@ function run() {
       res.send(result);
     });
 
-
-
-
     // approved seller by Admin.....................................................
     app.put("/approved/:id", async (req, res) => {
-        const id = req.params.id;
-        const query =  { _id: new ObjectId(id) };
-        const options = { upsert: true };
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const options = { upsert: true };
 
-        const updateDoc = {
-          $set: {
-            userType: "seller"
-          },
-        };
-        const result = await usersCollection.updateOne(query, updateDoc, options);
-        res.send(result);
-        
-    })
+      const updateDoc = {
+        $set: {
+          userType: "seller",
+        },
+      };
+      const result = await usersCollection.updateOne(query, updateDoc, options);
+      res.send(result);
+    });
 
-
-
-
-    
     // post Booking...........................
     app.post("/booking", async (req, res) => {
       const booking = req.body;
@@ -263,14 +180,10 @@ function run() {
       res.send(cursor);
     });
 
-
-
-
-
-
     // get Booking Data....................................
-    app.get("/booking", async (req, res) => {
-      let query = {};
+    app.get("/booking/:email", async (req, res) => {
+      const email = req.params.email;
+      let query = { sellerEmail: email };
       if (req.query.bookingHouse) {
         query = { bookingHouse: req.query.bookingHouse };
       }
@@ -280,9 +193,50 @@ function run() {
       res.send(result);
     });
 
+    // make admin
 
+    app.put("/admin/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const options = { upsert: true };
+      const query = { _id: new ObjectId(id) };
 
+      const updateDoc = {
+        $set: {
+          userType: "admin",
+        },
+      };
+      const result = await usersCollection.updateOne(query, updateDoc, options);
+      res.send(result);
+    });
 
+    //
+
+    // report booking
+
+    app.put("/report/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          report: true,
+        },
+      };
+
+      const result = await bookingCollection.updateOne(
+        query,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+
+    //
+
+    //
+
+    //
 
     //
   } finally {
