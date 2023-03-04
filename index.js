@@ -249,14 +249,15 @@ function run() {
       res.send({ isSeller: user?.userType == "seller" });
     });
 
-
-
-
     // get search Elements...................................................
-      app.get("/search", async (req, res) => {
-          const location = query.location;
-          console.log(location)
-      })
+    app.get("/search", async (req, res) => {
+      const location = req.query.location;
+      const category = req.query.category;
+      const query = { location: location, category: category };
+      const result = await basaCollection.find(query).toArray();
+      res.send(result);
+      console.log(location, category);
+    });
     //
 
     //
