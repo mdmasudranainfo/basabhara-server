@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const { MongoClient, ServerApiVersion, ObjectId, Admin } = require("mongodb");
 var cors = require("cors");
+const { query } = require("express");
 app.use(cors());
 const port = process.env.PORT || 5000;
 app.use(express.json());
@@ -248,6 +249,14 @@ function run() {
       res.send({ isSeller: user?.userType == "seller" });
     });
 
+
+
+
+    // get search Elements...................................................
+      app.get("/search", async (req, res) => {
+          const location = query.location;
+          console.log(location)
+      })
     //
 
     //
