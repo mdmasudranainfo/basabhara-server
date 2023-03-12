@@ -181,16 +181,25 @@ function run() {
       res.send(cursor);
     });
 
-    // get Booking Data....................................
+    // get Booking Data seller ....................................
     app.get("/booking/:email", async (req, res) => {
       const email = req.params.email;
       let query = { sellerEmail: email };
-      if (req.query.bookingHouse) {
+      `  if (req.query.bookingHouse) {
         query = { bookingHouse: req.query.bookingHouse };
-      }
+      }`;
 
       const cursor = await bookingCollection.find(query);
       const result = await cursor.toArray();
+      res.send(result);
+    });
+
+    // get Booking Data user
+    app.get("/bookingUser/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { customerEmail: email };
+      // const query = { sellerEmail: email };
+      const result = await bookingCollection.findOne(query);
       res.send(result);
     });
 
