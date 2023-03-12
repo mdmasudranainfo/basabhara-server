@@ -199,7 +199,14 @@ function run() {
       const email = req.params.email;
       const query = { customerEmail: email };
       // const query = { sellerEmail: email };
-      const result = await bookingCollection.findOne(query);
+      const result = await bookingCollection.find(query).toArray();
+      res.send(result);
+    });
+    // get Booking Data user
+    app.get("/allbooking", async (req, res) => {
+      const query = {};
+
+      const result = await bookingCollection.find(query).toArray();
       res.send(result);
     });
 
@@ -231,6 +238,46 @@ function run() {
       const updateDoc = {
         $set: {
           report: true,
+        },
+      };
+
+      const result = await bookingCollection.updateOne(
+        query,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+
+    // confirm book
+
+    app.put("/confirm/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          confirm: true,
+        },
+      };
+
+      const result = await bookingCollection.updateOne(
+        query,
+        updateDoc,
+        options
+      );
+      res.send(result);
+    });
+
+    // paid book
+
+    app.put("/paid/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: {
+          paid: true,
         },
       };
 
