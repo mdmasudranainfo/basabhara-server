@@ -74,7 +74,7 @@ function run() {
     // adject categories basa_____________________________________-
     app.get("/homes/:category", async (req, res) => {
       const category = req.params.category;
-      console.log(category);
+
       const query = { category: category };
       const result = await basaCollection.find(query).toArray();
       res.send(result);
@@ -83,7 +83,7 @@ function run() {
     //get exact homeDetails____________________________________
     app.get("/details/:id", async (req, res) => {
       const id = req.params.id;
-      // console.log(id);
+
       const query = { _id: new ObjectId(id) };
       const result = await basaCollection.findOne(query);
       res.send(result);
@@ -92,7 +92,7 @@ function run() {
     // delete basaCollection
     app.delete("/delete/:id", async (req, res) => {
       const id = req.params.id;
-      console.log(id);
+
       const query = { _id: new ObjectId(id) };
       const result = await basaCollection.deleteOne(query);
       res.send(result);
@@ -210,11 +210,20 @@ function run() {
       res.send(result);
     });
 
+    // get booking data by spacific seller
+    app.get("/allbooking/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { sellerEmail: email };
+
+      const result = await bookingCollection.find(query).toArray();
+      res.send(result);
+    });
+
     // make admin
 
     app.put("/admin/:id", async (req, res) => {
       const id = req.params.id;
-      console.log(id);
+
       const options = { upsert: true };
       const query = { _id: new ObjectId(id) };
 
@@ -312,7 +321,6 @@ function run() {
       const query = { location: location, category: category };
       const result = await basaCollection.find(query).toArray();
       res.send(result);
-      console.log(location, category);
     });
     //
 
