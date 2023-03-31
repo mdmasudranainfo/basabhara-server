@@ -70,6 +70,13 @@ function run() {
       const result = await basaCollection.find(query).toArray();
       res.send(result);
     });
+    // get basa collection for seller...................................................
+    app.get("/allbasa/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = {};
+      const result = await basaCollection.find(query).toArray();
+      res.send(result);
+    });
 
     // adject categories basa_____________________________________-
     app.get("/homes/:category", async (req, res) => {
@@ -339,7 +346,7 @@ run();
 //
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello World! ,Apr 1");
 });
 
 app.listen(port, () => {
